@@ -1,3 +1,7 @@
+# 0.1.3
+
+- Relicense plugin source under BSD 3-Clause; AMap SDK remains under its own terms.
+
 # 0.1.2
 
 - Navigation is opt-in by adding `amap_native_navi` to pubspec.yaml.

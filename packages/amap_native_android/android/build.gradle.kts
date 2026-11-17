@@ -2,7 +2,7 @@ import groovy.json.JsonSlurper
 import java.io.File
 
 group = "ink.qichen.amap_native"
-version = "0.1.2"
+version = "0.1.3"
 
 fun findFlutterPluginDependencies(): File? {
     val candidates = listOf(

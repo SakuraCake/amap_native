@@ -88,6 +88,15 @@ Android 原生 SDK 不接受 JavaScript 的 `amap://styles/whitesmoke`。请在�
 `style.data` / `style_extra.data`，通过 `AmapCustomStyle` 传入；否则使用
 `AmapMapStyle.normal`。
 
+## 许可证
+
+本仓库的插件源代码使用 **BSD 3-Clause License**，见根目录及各包 `LICENSE`。
+
+该许可证不覆盖高德地图 Android SDK、导航 SDK、离线地图数据或其资源；这些内容由
+高德按其自身 SDK/服务条款授权，仓库不重新分发其源码。使用者必须自行遵守高德
+Key、隐私合规、导航/离线服务及商用授权要求。BSD 3-Clause 也不代表高德对插件
+的认可。
+
 ## 开发
 
 ```bash

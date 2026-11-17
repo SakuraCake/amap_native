@@ -1,6 +1,6 @@
 name: amap_native_ios
 description: Explicit unsupported iOS stub for the amap_native Flutter plugins.
-version: 0.1.2
+version: 0.1.3
 repository: https://github.com/SakuraCake/amap_native
 
 environment:

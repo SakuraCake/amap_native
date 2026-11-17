@@ -1,6 +1,6 @@
 name: amap_native_route
 description: AMap native driving, walking, riding and transit route planning for Flutter.
-version: 0.1.2
+version: 0.1.3
 repository: https://github.com/SakuraCake/amap_native
 
 environment:

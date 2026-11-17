@@ -1,6 +1,6 @@
 name: amap_native_platform_interface
 description: Platform interface shared by the amap_native federated Flutter plugins.
-version: 0.1.2
+version: 0.1.3
 repository: https://github.com/SakuraCake/amap_native
 
 environment:
