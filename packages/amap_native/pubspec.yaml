@@ -1,0 +1,26 @@
+name: amap_native
+description: Federated Flutter plugins for the native AMap Android SDK with an explicit iOS stub.
+version: 0.1.0
+repository: https://github.com/SakuraCake/amap_native
+
+environment:
+  sdk: ^3.9.0
+  flutter: ">=3.35.0"
+
+resolution: workspace
+
+dependencies:
+  flutter:
+    sdk: flutter
+  amap_native_core: ^0.1.0
+  amap_native_map: ^0.1.0
+  amap_native_search: ^0.1.0
+  amap_native_location: ^0.1.0
+  amap_native_route: ^0.1.0
+  amap_native_navi: ^0.1.0
+  amap_native_offline: ^0.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
