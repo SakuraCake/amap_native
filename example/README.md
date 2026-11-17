@@ -23,3 +23,8 @@ flutter build apk --debug
 The demo includes map/overlay/snapshot, POI and district search, location,
 route planning, offline city download, and navigation simulation. Runtime map
 tests require a real key and an ARM Android device/emulator.
+
+The default build uses the base AMap SDK and does **not** include navigation.
+For the navigation tab, add `amapNativeNavi=true` to
+`android/gradle.properties` and rebuild; this adds roughly 70 MB of native
+navigation libraries.

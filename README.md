@@ -45,11 +45,19 @@ await AmapNative.initialize(
 
 `amap_native` 不自行弹隐私弹窗，也不会在未同意时调用高德 SDK。
 
-### 单个 Android 实现包的代价
+### 单个 Android 实现包与体积
 
-`amap_native_android` 使用 `navi-3dmap-location-search` 组合包，因此同时包含地图、
-搜索、定位与导航。高德导航 artifact 与基础地图 artifact 存在重复类；单独拆包会造成
-Android 构建冲突。所有 Android 用户都会携带导航 SDK，APK 体积会增大。
+`amap_native_android` 默认使用基础组合包
+`3dmap-location-search`（地图/搜索/定位/路线/离线），**不包含导航原生库**。
+
+需要导航时，在宿主 `android/gradle.properties` 加入：
+
+```properties
+amapNativeNavi=true
+```
+
+然后重新构建。此时改用 `navi-3dmap-location-search`，会额外携带约 70 MB 的
+`libAMapSDK_NAVI`，只应给需要导航的 App 使用。两个 SDK 组合互斥，插件不会同时依赖。
 
 高德 AAR 主要提供 ARM 库；x86_64 模拟器可能无法加载地图。
 

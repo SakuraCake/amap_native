@@ -1,6 +1,6 @@
 name: amap_native_navi
 description: AMap native turn-by-turn navigation view and controller for Flutter.
-version: 0.1.0
+version: 0.1.1
 repository: https://github.com/SakuraCake/amap_native
 
 environment:

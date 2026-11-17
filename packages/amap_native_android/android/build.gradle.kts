@@ -1,6 +1,11 @@
 group = "ink.qichen.amap_native"
 version = "0.1.0"
 
+val useNaviSdk = (
+    findProperty("amapNativeNavi")
+        ?: System.getenv("AMAP_NATIVE_NAVI")
+    )?.toString()?.toBoolean() ?: false
+
 buildscript {
     val kotlinVersion = "2.4.0"
     repositories {
@@ -39,7 +44,10 @@ android {
 
     sourceSets {
         getByName("main") {
-            java.srcDirs("src/main/kotlin")
+            java.srcDirs(
+                "src/main/kotlin",
+                if (useNaviSdk) "src/navi/kotlin" else "src/base/kotlin"
+            )
         }
         getByName("test") {
             java.srcDirs("src/test/kotlin")
@@ -73,7 +81,11 @@ kotlin {
 }
 
 dependencies {
-    implementation("com.amap.api:navi-3dmap-location-search:11.3.100_3dmap11.3.100_loc11.3.000_sea9.8.1")
+    if (useNaviSdk) {
+        implementation("com.amap.api:navi-3dmap-location-search:11.3.100_3dmap11.3.100_loc11.3.000_sea9.8.1")
+    } else {
+        implementation("com.amap.api:3dmap-location-search:11.3.100_loc11.3.101_sea9.8.1")
+    }
     implementation("androidx.annotation:annotation:1.9.1")
     implementation("androidx.lifecycle:lifecycle-common:2.8.7")
     testImplementation("org.jetbrains.kotlin:kotlin-test")

@@ -1,6 +1,6 @@
 name: amap_native_android
 description: Android implementation of the amap_native Flutter plugins using the native AMap SDK.
-version: 0.1.0
+version: 0.1.1
 repository: https://github.com/SakuraCake/amap_native
 
 environment:

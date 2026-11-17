@@ -80,7 +80,9 @@ class AmapNativePlugin : FlutterPlugin, ActivityAware, MethodChannel.MethodCallH
             updatePrivacy("com.amap.api.maps.MapsInitializer", context)
             updatePrivacy("com.amap.api.services.core.ServiceSettings", context)
             updatePrivacy("com.amap.api.location.AMapLocationClient", context)
-            updatePrivacy("com.amap.api.navi.NaviSetting", context)
+            runCatching {
+                updatePrivacy("com.amap.api.navi.NaviSetting", context)
+            }
             AmapRuntime.initialized = true
             result.success(null)
         } catch (error: Throwable) {
