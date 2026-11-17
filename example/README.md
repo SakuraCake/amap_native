@@ -10,7 +10,7 @@ Create `android/local.properties` with:
 amap.key=你的 Android Key
 ```
 
-The Key must be bound to `ink.qichen.amap_native_example` and the debug/release
+The Key must be bound to `io.github.sakuracake.amap_native_example` and the debug/release
 SHA1. The app shows a privacy consent screen before initializing the SDK.
 
 ## Build

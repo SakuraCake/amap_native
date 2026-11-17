@@ -1,4 +1,4 @@
-package ink.qichen.amap_native_example
+package io.github.sakuracake.amap_native_example
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,4 +1,4 @@
-package ink.qichen.amap_native
+package io.github.sakuracake.amap_native
 
 import android.content.Context
 import android.graphics.BitmapFactory

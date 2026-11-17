@@ -1,4 +1,4 @@
-package ink.qichen.amap_native
+package io.github.sakuracake.amap_native
 
 import android.app.Activity
 import android.content.Context

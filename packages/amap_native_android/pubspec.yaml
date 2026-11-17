@@ -24,6 +24,6 @@ flutter:
   plugin:
     platforms:
       android:
-        package: ink.qichen.amap_native
+        package: io.github.sakuracake.amap_native
         pluginClass: AmapNativePlugin
         dartPluginClass: AmapNativeAndroid

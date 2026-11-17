@@ -1,7 +1,7 @@
 import groovy.json.JsonSlurper
 import java.io.File
 
-group = "ink.qichen.amap_native"
+group = "io.github.sakuracake.amap_native"
 version = "0.1.3"
 
 fun findFlutterPluginDependencies(): File? {
@@ -53,7 +53,7 @@ plugins {
 }
 
 android {
-    namespace = "ink.qichen.amap_native"
+    namespace = "io.github.sakuracake.amap_native"
 
     compileSdk = 36
 
