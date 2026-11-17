@@ -49,15 +49,20 @@ await AmapNative.initialize(
 
 `amap_native_android` 默认使用基础组合包
 `3dmap-location-search`（地图/搜索/定位/路线/离线），**不包含导航原生库**。
+默认门面包 `amap_native` 也不导出导航 API，避免误调用。
 
-需要导航时，在宿主 `android/gradle.properties` 加入：
+需要导航时，在 `pubspec.yaml` 增加：
 
-```properties
-amapNativeNavi=true
+```yaml
+dependencies:
+  amap_native_navi: ^0.1.0
+  amap_native_android: ^0.1.0
 ```
 
-然后重新构建。此时改用 `navi-3dmap-location-search`，会额外携带约 70 MB 的
-`libAMapSDK_NAVI`，只应给需要导航的 App 使用。两个 SDK 组合互斥，插件不会同时依赖。
+`amap_native_android` 的 Gradle 配置会检测依赖中的 `amap_native_navi`，自动改用
+`navi-3dmap-location-search`。不需要任何 `gradle.properties` 开关。
+这会额外携带约 70 MB 的 `libAMapSDK_NAVI`，只应给需要导航的 App 使用。
+两个 SDK 组合互斥，插件不会同时依赖。
 
 高德 AAR 主要提供 ARM 库；x86_64 模拟器可能无法加载地图。
 

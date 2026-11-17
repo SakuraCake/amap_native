@@ -1,6 +1,6 @@
 name: amap_native_offline
 description: AMap native offline map city download and lifecycle client for Flutter.
-version: 0.1.1
+version: 0.1.2
 repository: https://github.com/SakuraCake/amap_native
 
 environment:

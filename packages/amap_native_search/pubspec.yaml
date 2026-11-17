@@ -1,6 +1,6 @@
 name: amap_native_search
 description: POI, input tips, geocoding, district, weather and traffic search for AMap native Flutter plugins.
-version: 0.1.1
+version: 0.1.2
 repository: https://github.com/SakuraCake/amap_native
 
 environment:

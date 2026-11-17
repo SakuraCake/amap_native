@@ -1,6 +1,6 @@
 name: amap_native_location
 description: AMap native location, address and geofence client for Flutter.
-version: 0.1.1
+version: 0.1.2
 repository: https://github.com/SakuraCake/amap_native
 
 environment:

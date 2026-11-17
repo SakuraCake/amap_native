@@ -1,10 +1,30 @@
-group = "ink.qichen.amap_native"
-version = "0.1.0"
+import groovy.json.JsonSlurper
+import java.io.File
 
-val useNaviSdk = (
-    findProperty("amapNativeNavi")
-        ?: System.getenv("AMAP_NATIVE_NAVI")
-    )?.toString()?.toBoolean() ?: false
+group = "ink.qichen.amap_native"
+version = "0.1.2"
+
+fun findFlutterPluginDependencies(): File? {
+    val candidates = listOf(
+        rootProject.projectDir.resolve("../.flutter-plugins-dependencies"),
+        rootProject.projectDir.resolve(".flutter-plugins-dependencies"),
+        project.projectDir.resolve("../../../.flutter-plugins-dependencies")
+    )
+    return candidates.map { it.canonicalFile }.firstOrNull { it.isFile }
+}
+
+val useNaviSdk: Boolean = findFlutterPluginDependencies()?.let { file ->
+    runCatching {
+        val root = JsonSlurper().parse(file) as Map<*, *>
+        val plugins = root["plugins"] as? Map<*, *> ?: emptyMap<Any?, Any?>()
+        val android = plugins["android"] as? List<*> ?: emptyList<Any?>()
+        android.any { (it as? Map<*, *>)?.get("name") == "amap_native_navi" }
+    }.getOrDefault(false)
+} ?: false
+logger.lifecycle(
+    "AMap navigation SDK: ${if (useNaviSdk) "enabled" else "disabled"} " +
+        "(from pubspec dependency amap_native_navi)"
+)
 
 buildscript {
     val kotlinVersion = "2.4.0"

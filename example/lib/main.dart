@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:amap_native/amap_native.dart';
+import 'package:amap_native_navi/amap_native_navi.dart';
 import 'package:flutter/material.dart';
 
 const _initialCamera = AmapCameraPosition(

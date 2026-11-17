@@ -13,6 +13,7 @@ dependencies:
   flutter:
     sdk: flutter
   amap_native: ^0.1.0
+  amap_native_navi: ^0.1.0
   amap_native_android: ^0.1.0
   amap_native_ios: ^0.1.0
 

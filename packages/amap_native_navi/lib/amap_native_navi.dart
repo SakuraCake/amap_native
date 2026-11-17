@@ -14,6 +14,13 @@ export 'package:amap_native_core/amap_native_core.dart'
 export 'package:amap_native_platform_interface/amap_native_platform_interface.dart'
     show AmapNaviController;
 
+class AmapNaviPlugin {
+  AmapNaviPlugin._();
+
+  /// Dart-only marker; its presence in pubspec selects the navi SDK build.
+  static void registerWith() {}
+}
+
 class AmapNaviView extends StatefulWidget {
   const AmapNaviView({
     super.key,
