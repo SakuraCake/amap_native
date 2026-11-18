@@ -21,10 +21,9 @@ class AmapNativePlugin : FlutterPlugin, ActivityAware, MethodChannel.MethodCallH
         context = binding.applicationContext
         channel = MethodChannel(binding.binaryMessenger, "amap_native/core")
         channel.setMethodCallHandler(this)
-        search = AmapSearchHandler(context, binding.binaryMessenger)
-        location = AmapLocationHandler(context, binding.binaryMessenger)
-        route = AmapRouteHandler(context, binding.binaryMessenger)
-        offline = AmapOfflineHandler(context, binding.binaryMessenger)
+        // Register platform views first. A service handler must not be able to
+        // prevent map/navigation view registration if its native client fails
+        // to initialize.
         binding.platformViewRegistry.registerViewFactory(
             "amap_native_map_view",
             AmapMapViewFactory(binding.binaryMessenger) { null }
@@ -33,6 +32,10 @@ class AmapNativePlugin : FlutterPlugin, ActivityAware, MethodChannel.MethodCallH
             "amap_native_navi_view",
             AmapNaviViewFactory(binding.binaryMessenger) { null }
         )
+        search = AmapSearchHandler(context, binding.binaryMessenger)
+        location = AmapLocationHandler(context, binding.binaryMessenger)
+        route = AmapRouteHandler(context, binding.binaryMessenger)
+        offline = AmapOfflineHandler(context, binding.binaryMessenger)
     }
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {

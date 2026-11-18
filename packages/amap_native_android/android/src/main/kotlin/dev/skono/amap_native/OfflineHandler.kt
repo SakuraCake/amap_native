@@ -9,18 +9,16 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 
 class AmapOfflineHandler(
-    context: Context,
+    private val context: Context,
     messenger: BinaryMessenger
 ) : MethodChannel.MethodCallHandler, EventChannel.StreamHandler {
     private val channel = MethodChannel(messenger, "amap_native/offline")
     private val eventChannel = EventChannel(messenger, "amap_native/offline/events")
     private var sink: EventChannel.EventSink? = null
-    private val manager: OfflineMapManager
+    private var manager: OfflineMapManager? = null
 
-    init {
-        channel.setMethodCallHandler(this)
-        eventChannel.setStreamHandler(this)
-        manager = OfflineMapManager(context, object : OfflineMapManager.OfflineMapDownloadListener {
+    private val downloadListener =
+        object : OfflineMapManager.OfflineMapDownloadListener {
             override fun onDownload(cityCode: Int, progress: Int, message: String?) {
                 sink?.success(
                     mapOf(
@@ -56,13 +54,21 @@ class AmapOfflineHandler(
                     )
                 )
             }
-        })
+        }
+
+    init {
+        channel.setMethodCallHandler(this)
+        eventChannel.setStreamHandler(this)
     }
+
+    private fun requireManager(): OfflineMapManager =
+        manager ?: OfflineMapManager(context, downloadListener).also { manager = it }
 
     fun dispose() {
         channel.setMethodCallHandler(null)
         eventChannel.setStreamHandler(null)
-        manager.destroy()
+        manager?.destroy()
+        manager = null
         sink = null
     }
 
@@ -73,25 +79,27 @@ class AmapOfflineHandler(
         }
         try {
             when (call.method) {
-                "getCities" -> result.success(manager.offlineMapCityList.map { city(it) })
+                "getCities" -> result.success(
+                    requireManager().offlineMapCityList.map { city(it) }
+                )
                 "download" -> {
-                    manager.downloadByCityCode(cityCode(call))
+                    requireManager().downloadByCityCode(cityCode(call))
                     result.success(null)
                 }
                 "pause" -> {
-                    manager.pause()
+                    requireManager().pause()
                     result.success(null)
                 }
                 "resume" -> {
-                    manager.downloadByCityCode(cityCode(call))
+                    requireManager().downloadByCityCode(cityCode(call))
                     result.success(null)
                 }
                 "remove" -> {
-                    manager.remove(cityCode(call))
+                    requireManager().remove(cityCode(call))
                     result.success(null)
                 }
                 "update" -> {
-                    manager.updateOfflineCityByCode(cityCode(call))
+                    requireManager().updateOfflineCityByCode(cityCode(call))
                     result.success(null)
                 }
                 else -> result.notImplemented()

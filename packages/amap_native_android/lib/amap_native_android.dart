@@ -396,7 +396,8 @@ Future<T?> _call<T>(
   Object? arguments,
 ]) async {
   try {
-    return await channel.invokeMethod<T>(method, arguments);
+    final result = await channel.invokeMethod<Object?>(method, arguments);
+    return _normalize(result) as T?;
   } on MissingPluginException {
     throw const AmapUnsupportedError(
       'No AMap Android implementation is registered.',
@@ -408,6 +409,15 @@ Future<T?> _call<T>(
       error.details,
     );
   }
+}
+
+Object? _normalize(Object? value) {
+  if (value is Uint8List) return value;
+  if (value is Map) {
+    return value.map((key, item) => MapEntry(key.toString(), _normalize(item)));
+  }
+  if (value is List) return value.map(_normalize).toList();
+  return value;
 }
 
 Map<String, Object?> _map(Object? value) {
