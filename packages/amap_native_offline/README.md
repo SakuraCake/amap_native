@@ -1,9 +1,12 @@
-# amap_native package
+# amap_native_offline
 
-Part of the [`amap_native`](https://github.com/SakuraCake/amap_native) federated
-Flutter plugin set for the native Android AMap SDK.
+Offline map city listing and download management for the
+[`amap_native`](https://github.com/SakuraCake/amap_native) federated Flutter
+plugins.
 
-See the repository root README for setup, privacy initialization, Android Key
-configuration, and the Android-only/iOS-stub limitations.
+Use `AmapOfflineMapClient` for city lists and download, pause, resume, remove
+and update operations. Download progress is delivered as a broadcast stream.
 
-Android apps must depend on both `amap_native` and `amap_native_android`.
+Android requires `amap_native_android`; iOS currently throws
+`AmapUnsupportedError`. Offline map service access must be enabled for the AMap
+Key.

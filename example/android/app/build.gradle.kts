@@ -15,7 +15,7 @@ val localProperties = Properties().apply {
 val amapKey = localProperties.getProperty("amap.key") ?: ""
 
 android {
-    namespace = "io.github.sakuracake.amap_native_example"
+    namespace = "dev.skono.amap_native_example"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -26,7 +26,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "io.github.sakuracake.amap_native_example"
+        applicationId = "dev.skono.amap_native_example"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = 24

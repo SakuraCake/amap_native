@@ -1,37 +1,43 @@
 # amap_native
 
-非高德官方维护的 Flutter 原生插件集合，使用 Android 高德 SDK。iOS 第一版只有显式
-`AmapUnsupportedError` 桩，不提供原生地图。
+Federated Flutter plugins for the native Android AMap SDK. This project is not
+maintained by AMap. The iOS implementation is an explicit `AmapUnsupportedError`
+stub; it does not provide a native map.
 
-## 包
+Project home: [skono.dev](https://skono.dev)
 
-| 包 | 作用 |
+## Packages
+
+| Package | Purpose |
 | --- | --- |
-| `amap_native_core` | 坐标、模型、隐私初始化、异常 |
-| `amap_native_platform_interface` | 联邦插件平台契约 |
-| `amap_native_map` | 地图 Widget、Controller、覆盖物、Marker 聚合 |
-| `amap_native_search` | POI、输入提示、地理/逆地理、行政区、天气、交通态势 |
-| `amap_native_location` | 单次/连续定位、地址、电子围栏 |
-| `amap_native_route` | 驾车、步行、骑行、公交路线 |
-| `amap_native_navi` | 导航 View、模拟导航 |
-| `amap_native_offline` | 离线地图城市与下载进度 |
-| `amap_native_android` | Android 原生实现（包含导航 SDK） |
-| `amap_native_ios` | iOS 显式不支持桩 |
-| `amap_native` | 导出全部 Dart API 的门面包 |
+| `amap_native_core` | Coordinates, models, privacy initialization, exceptions |
+| `amap_native_platform_interface` | Federated plugin platform contracts |
+| `amap_native_map` | Map widget, controller, overlays, marker clustering |
+| `amap_native_search` | POI, input tips, geocoding, reverse geocoding, districts, weather, traffic |
+| `amap_native_location` | One-shot and continuous location, address, geofence |
+| `amap_native_route` | Driving, walking, cycling and transit routes |
+| `amap_native_navi` | Navigation view and simulated navigation |
+| `amap_native_offline` | Offline map cities and download progress |
+| `amap_native_android` | Android native implementation (includes the navigation SDK) |
+| `amap_native_ios` | Explicit unsupported iOS stub |
+| `amap_native` | Umbrella package that exports the Dart API |
 
-## Android 接入
+## Android setup
 
-1. 依赖 `amap_native` 和 `amap_native_android`。
-2. 在高德控制台创建 Android Key，绑定应用包名和调试/发布 SHA1。
-3. 在宿主 `android/app/src/main/AndroidManifest.xml` 的 `<application>` 中加入：
+1. Depend on `amap_native` and `amap_native_android`.
+2. Create an Android Key in the AMap console and bind it to the application ID
+   and the debug/release SHA1 fingerprints.
+3. Add the Key to the host application's `<application>` element in
+   `android/app/src/main/AndroidManifest.xml`:
 
 ```xml
 <meta-data
     android:name="com.amap.api.v2.apikey"
-    android:value="你的 Android Key" />
+    android:value="YOUR_ANDROID_KEY" />
 ```
 
-4. 隐私合规：在创建任何地图或启动定位前，由宿主展示隐私政策，取得同意后调用：
+4. Privacy compliance: before creating a map or starting location, the host must
+   show its privacy policy and obtain consent, then call:
 
 ```dart
 await AmapNative.initialize(
@@ -43,15 +49,18 @@ await AmapNative.initialize(
 );
 ```
 
-`amap_native` 不自行弹隐私弹窗，也不会在未同意时调用高德 SDK。
+`amap_native` does not show a privacy dialog itself and never calls the AMap SDK
+before consent.
 
-### 单个 Android 实现包与体积
+### One Android implementation and APK size
 
-`amap_native_android` 默认使用基础组合包
-`3dmap-location-search`（地图/搜索/定位/路线/离线），**不包含导航原生库**。
-默认门面包 `amap_native` 也不导出导航 API，避免误调用。
+`amap_native_android` uses the base artifact
+`3dmap-location-search` (map, search, location, route, offline) by default and
+does **not** include the navigation native libraries. The default umbrella
+package also does not export navigation APIs, so they cannot be called by
+accident.
 
-需要导航时，在 `pubspec.yaml` 增加：
+To enable navigation, add:
 
 ```yaml
 dependencies:
@@ -59,45 +68,63 @@ dependencies:
   amap_native_android: ^0.1.0
 ```
 
-`amap_native_android` 的 Gradle 配置会检测依赖中的 `amap_native_navi`，自动改用
-`navi-3dmap-location-search`。不需要任何 `gradle.properties` 开关。
-这会额外携带约 70 MB 的 `libAMapSDK_NAVI`，只应给需要导航的 App 使用。
-两个 SDK 组合互斥，插件不会同时依赖。
+The `amap_native_android` Gradle configuration detects `amap_native_navi` in the
+dependency graph and switches to `navi-3dmap-location-search`. No
+`gradle.properties` flag is required. This adds the roughly 70 MB
+`libAMapSDK_NAVI` native library; only apps that need navigation should enable
+it. The two AMap SDK artifact combinations are mutually exclusive, and the
+plugin never depends on both.
 
-高德 AAR 主要提供 ARM 库；x86_64 模拟器可能无法加载地图。
+The AMap AARs mainly provide ARM libraries; x86_64 emulators may not load the
+map.
 
 ## iOS
 
-依赖 `amap_native` 和 `amap_native_ios`。iOS 能编译，但任何地图/搜索/定位调用会抛出
-`AmapUnsupportedError`。不要在 iOS 上把它当作可用地图方案。
+Depend on `amap_native` and `amap_native_ios`. The app compiles on iOS, but any
+map, search or location call throws `AmapUnsupportedError`. Do not treat iOS as
+a supported map target in this version.
 
-## 已知限制
+## Known limitations
 
-- AMap Android SDK 11.3.100 的搜索包没有公开交通态势查询类，`AmapSearchClient.trafficStatus`
-  在 Android 上会返回 `unsupported` 异常；需要交通态势时请使用高德 Web 服务并自行处理 Key 类型。
-- 导航 SDK 不提供 TTS 音量设置方法，`AmapNaviController.setVolume` 会返回 `unsupported`；
-  `AmapNaviViewOptions.showScale` / `showZoomControls` / `showEndPoint` 没有对应原生开关。
-- 地图 `setPadding` 使用 Android View padding，不是高德相机 padding；相机 fitBounds 仍按传入
-  padding 计算。
-- `tsilema` 只在首页 Android 路径启用原生地图；后台编辑页保留 WebView，直到单独完成原生
-  选点回归。
+- The AMap Android SDK 11.3.100 search artifact does not expose a public traffic
+  status class. `AmapSearchClient.trafficStatus` returns an `unsupported`
+  exception on Android. Use the AMap Web service with a suitable Key type if
+  traffic status is required.
+- The navigation SDK does not expose a TTS volume setter.
+  `AmapNaviController.setVolume` returns `unsupported`.
+  `AmapNaviViewOptions.showScale`, `showZoomControls` and `showEndPoint` have no
+  native equivalents.
+- `setPadding` applies Android View padding, not AMap camera padding. Camera
+  `fitBounds` still uses the supplied padding.
+- `tsilema` enables the native map only on the Android home route. The admin
+  shop editor keeps its WebView until native point selection is verified
+  separately.
 
-## 样式
+## Styling
 
-Android 原生 SDK 不接受 JavaScript 的 `amap://styles/whitesmoke`。请在高德控制台导出
-`style.data` / `style_extra.data`，通过 `AmapCustomStyle` 传入；否则使用
-`AmapMapStyle.normal`。
+The native Android SDK does not accept the JavaScript style URI
+`amap://styles/whitesmoke`. Export `style.data` and `style_extra.data` from the
+AMap console and pass them through `AmapCustomStyle`. Otherwise use
+`AmapMapStyle.normal`.
 
-## 许可证
+## Language
 
-本仓库的插件源代码使用 **BSD 3-Clause License**，见根目录及各包 `LICENSE`。
+All repository documentation, code comments and library error messages are in
+English. Chinese text is limited to user data, AMap responses and example POI
+test fixtures.
 
-该许可证不覆盖高德地图 Android SDK、导航 SDK、离线地图数据或其资源；这些内容由
-高德按其自身 SDK/服务条款授权，仓库不重新分发其源码。使用者必须自行遵守高德
-Key、隐私合规、导航/离线服务及商用授权要求。BSD 3-Clause 也不代表高德对插件
-的认可。
+## License
 
-## 开发
+The plugin source code in this repository is licensed under the **BSD 3-Clause
+License**; see the root `LICENSE` and each package's `LICENSE`.
+
+That license does not cover the AMap Android map SDK, navigation SDK, offline
+map data or their resources. Those are licensed by AMap under its own SDK and
+service terms, and this repository does not redistribute their source. Users
+must comply with AMap's Key, privacy, navigation, offline and commercial usage
+requirements. The BSD 3-Clause License does not imply AMap endorsement.
+
+## Development
 
 ```bash
 flutter pub get
@@ -107,4 +134,5 @@ dart run melos run test
 cd example && flutter build apk --debug
 ```
 
-示例 Key 从 `example/android/local.properties` 的 `amap.key` 读取；仓库不包含真实 Key。
+The example reads its Key from `example/android/local.properties` under
+`amap.key`; the repository contains no real Key.

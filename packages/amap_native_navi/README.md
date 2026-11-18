@@ -1,9 +1,12 @@
-# amap_native package
+# amap_native_navi
 
-Part of the [`amap_native`](https://github.com/SakuraCake/amap_native) federated
-Flutter plugin set for the native Android AMap SDK.
+Navigation view and simulated navigation for the
+[`amap_native`](https://github.com/SakuraCake/amap_native) federated Flutter
+plugins.
 
-See the repository root README for setup, privacy initialization, Android Key
-configuration, and the Android-only/iOS-stub limitations.
+Adding this package to an app's `pubspec.yaml` makes `amap_native_android`
+switch from `3dmap-location-search` to the combined
+`navi-3dmap-location-search` artifact. This adds the AMap navigation native
+libraries and requires navigation service access on the AMap Key.
 
-Android apps must depend on both `amap_native` and `amap_native_android`.
+Android only. iOS currently throws `AmapUnsupportedError`.

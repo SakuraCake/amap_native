@@ -1,34 +1,37 @@
 # amap_native_android
 
-Android implementation of the `amap_native` federated Flutter plugins.
+Android implementation of the
+[`amap_native`](https://github.com/SakuraCake/amap_native) federated Flutter
+plugins, backed by the native AMap Android SDK.
 
 ## SDK selection
 
-By default this package uses:
+By default the package uses:
 
 ```text
-com.amap.api:3dmap-location-search:11.3.100_loc11.3.101_sea9.8.1
+com.amap.api:3dmap-location-search
 ```
 
-It contains map, search, location, route planning and offline maps, but **not**
-the navigation SDK. The default `amap_native` umbrella also does not export
-navigation APIs.
+When the application depends on `amap_native_navi`, the Gradle plugin detects
+that dependency and switches to:
 
-To include navigation, add the optional Dart package in the app's
-`pubspec.yaml`:
-
-```yaml
-dependencies:
-  amap_native_navi: ^0.1.0
-  amap_native_android: ^0.1.0
+```text
+com.amap.api:navi-3dmap-location-search
 ```
 
-The Android Gradle configuration reads `.dart_tool/package_config.json`; when
-`amap_native_navi` is present it switches to `navi-3dmap-location-search` and
-adds roughly 70 MB of navigation native libraries. No `gradle.properties` flag
-is required. The two SDK combinations are mutually exclusive.
+The two artifacts contain overlapping map, search and location classes, so the
+plugin never depends on both. The navigation variant is significantly larger.
 
 ## Key and privacy
 
-Add the AMap Android key to the host manifest and initialize privacy before any
-SDK call. See the repository root README.
+The host application must declare the Android Key in its manifest:
+
+```xml
+<meta-data
+    android:name="com.amap.api.v2.apikey"
+    android:value="YOUR_ANDROID_KEY" />
+```
+
+Call `AmapNative.initialize` with an agreed `AmapPrivacy` value before creating
+any map or starting location. See the repository root README for the full setup
+and the Android-only limitation.

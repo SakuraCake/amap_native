@@ -1,9 +1,13 @@
-# amap_native package
+# amap_native_map
 
-Part of the [`amap_native`](https://github.com/SakuraCake/amap_native) federated
-Flutter plugin set for the native Android AMap SDK.
+Map widget, controller, overlays and marker clustering for the
+[`amap_native`](https://github.com/SakuraCake/amap_native) federated Flutter
+plugins.
 
-See the repository root README for setup, privacy initialization, Android Key
-configuration, and the Android-only/iOS-stub limitations.
+The package provides `AmapMapView`, `AmapMapController`, camera updates,
+markers, polylines, polygons, circles, tile overlays, ground overlays, heatmaps,
+map events, screenshots and the pure-Dart `clusterAmapMarkers` helper.
 
-Android apps must depend on both `amap_native` and `amap_native_android`.
+Android requires `amap_native_android`. iOS currently throws
+`AmapUnsupportedError`. See the repository root README for Key and privacy
+setup.

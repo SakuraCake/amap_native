@@ -1,9 +1,12 @@
-# amap_native package
+# amap_native_ios
 
-Part of the [`amap_native`](https://github.com/SakuraCake/amap_native) federated
-Flutter plugin set for the native Android AMap SDK.
+Explicit iOS stub for the
+[`amap_native`](https://github.com/SakuraCake/amap_native) federated Flutter
+plugins.
 
-See the repository root README for setup, privacy initialization, Android Key
-configuration, and the Android-only/iOS-stub limitations.
+This package lets an iOS host compile, but it does not provide a native map or
+location implementation. Every map, search, location, route, navigation and
+offline call throws `AmapUnsupportedError`.
 
-Android apps must depend on both `amap_native` and `amap_native_android`.
+Do not present iOS as a supported native map target in this version. Use a
+WebView map or another provider on iOS.

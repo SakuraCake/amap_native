@@ -62,7 +62,7 @@ class _AmapNaviViewState extends State<AmapNaviView> {
               case 'error':
                 _reportError(
                   event.data['code']?.toString() ?? 'navi_error',
-                  event.data['message']?.toString() ?? '导航出错',
+                  event.data['message']?.toString() ?? 'Navigation error',
                 );
               default:
                 widget.onNaviInfoUpdate?.call(event);
@@ -101,7 +101,7 @@ class _AmapNaviViewState extends State<AmapNaviView> {
           child: Padding(
             padding: const EdgeInsets.all(24),
             child: Text(
-              '导航加载失败：$error',
+              'Navigation failed to load: $error',
               textAlign: TextAlign.center,
               style: const TextStyle(color: Color(0xff555555)),
             ),

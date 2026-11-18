@@ -66,7 +66,7 @@ class _ConsentPageState extends State<_ConsentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('AMap Native 示例')),
+      appBar: AppBar(title: const Text('AMap Native Example')),
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 520),
@@ -78,9 +78,9 @@ class _ConsentPageState extends State<_ConsentPage> {
                 const Icon(Icons.map_outlined, size: 72),
                 const SizedBox(height: 16),
                 const Text(
-                  '本示例使用高德 Android 原生 SDK。请先在 '
-                  'android/local.properties 配置 amap.key，并确保 Key '
-                  '绑定了示例包名与签名 SHA1。',
+                  'This example uses the native AMap Android SDK. Configure '
+                  'amap.key in android/local.properties first, and bind the '
+                  'Key to the example application ID and signing SHA1.',
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 24),
@@ -88,7 +88,9 @@ class _ConsentPageState extends State<_ConsentPage> {
                   value: _agreed,
                   onChanged: (value) =>
                       setState(() => _agreed = value ?? false),
-                  title: const Text('我已阅读并同意高德地图隐私政策'),
+                  title: const Text(
+                    'I have read and agree to the AMap privacy policy',
+                  ),
                 ),
                 const SizedBox(height: 12),
                 FilledButton(
@@ -98,7 +100,7 @@ class _ConsentPageState extends State<_ConsentPage> {
                           dimension: 20,
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
-                      : const Text('开始使用'),
+                      : const Text('Get started'),
                 ),
                 if (_error != null) ...[
                   const SizedBox(height: 16),
@@ -144,12 +146,18 @@ class _HomePageState extends State<_HomePage> {
         selectedIndex: _index,
         onDestinationSelected: (value) => setState(() => _index = value),
         destinations: const [
-          NavigationDestination(icon: Icon(Icons.map), label: '地图'),
-          NavigationDestination(icon: Icon(Icons.search), label: '搜索'),
-          NavigationDestination(icon: Icon(Icons.my_location), label: '定位'),
-          NavigationDestination(icon: Icon(Icons.route), label: '路线'),
-          NavigationDestination(icon: Icon(Icons.download), label: '离线'),
-          NavigationDestination(icon: Icon(Icons.navigation), label: '导航'),
+          NavigationDestination(icon: Icon(Icons.map), label: 'Map'),
+          NavigationDestination(icon: Icon(Icons.search), label: 'Search'),
+          NavigationDestination(
+            icon: Icon(Icons.my_location),
+            label: 'Location',
+          ),
+          NavigationDestination(icon: Icon(Icons.route), label: 'Route'),
+          NavigationDestination(icon: Icon(Icons.download), label: 'Offline'),
+          NavigationDestination(
+            icon: Icon(Icons.navigation),
+            label: 'Navigation',
+          ),
         ],
       ),
     );
@@ -165,7 +173,7 @@ class _MapPage extends StatefulWidget {
 
 class _MapPageState extends State<_MapPage> {
   AmapMapController? _controller;
-  String _message = '点击地图或 marker';
+  String _message = 'Tap the map or a marker';
 
   final _markers = {
     const AmapMarker(id: 'a', position: AmapLatLng(43.8845, 125.3181)),
@@ -176,14 +184,14 @@ class _MapPageState extends State<_MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('地图'),
+        title: const Text('Map'),
         actions: [
           IconButton(
-            tooltip: '截图',
+            tooltip: 'Snapshot',
             onPressed: () async {
               final bytes = await _controller?.snapshot();
               if (!mounted) return;
-              setState(() => _message = '截图 ${bytes?.length ?? 0} 字节');
+              setState(() => _message = 'Snapshot ${bytes?.length ?? 0} bytes');
             },
             icon: const Icon(Icons.camera_alt_outlined),
           ),
@@ -207,7 +215,7 @@ class _MapPageState extends State<_MapPage> {
             onMapCreated: (controller) => _controller = controller,
             onTap: (point) => setState(
               () => _message =
-                  '点击 ${point.latitude.toStringAsFixed(5)}, '
+                  'Tap ${point.latitude.toStringAsFixed(5)}, '
                   '${point.longitude.toStringAsFixed(5)}',
             ),
             onMarkerTap: (id) => setState(() => _message = 'Marker $id'),
@@ -243,7 +251,7 @@ class _SearchPage extends StatefulWidget {
 class _SearchPageState extends State<_SearchPage> {
   final _search = const AmapSearchClient();
   final _controller = TextEditingController(text: '万达');
-  String _result = '输入关键词后搜索';
+  String _result = 'Enter a keyword, then search';
   bool _loading = false;
 
   Future<void> _run(Future<void> Function() action) async {
@@ -263,14 +271,14 @@ class _SearchPageState extends State<_SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('搜索')),
+      appBar: AppBar(title: const Text('Search')),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
           TextField(
             controller: _controller,
             decoration: const InputDecoration(
-              labelText: '关键词',
+              labelText: 'Keyword',
               border: OutlineInputBorder(),
             ),
           ),
@@ -310,7 +318,7 @@ class _SearchPageState extends State<_SearchPage> {
                               .join('\n'),
                         );
                       }),
-                child: const Text('输入提示'),
+                child: const Text('Input tips'),
               ),
               OutlinedButton(
                 onPressed: _loading
@@ -325,7 +333,7 @@ class _SearchPageState extends State<_SearchPage> {
                               .join('\n'),
                         );
                       }),
-                child: const Text('行政区'),
+                child: const Text('District'),
               ),
             ],
           ),
@@ -348,7 +356,7 @@ class _LocationPage extends StatefulWidget {
 class _LocationPageState extends State<_LocationPage> {
   final _client = const AmapLocationClient();
   StreamSubscription<AmapLocation>? _subscription;
-  String _status = '未启动';
+  String _status = 'Not started';
 
   Future<void> _start() async {
     try {
@@ -363,7 +371,7 @@ class _LocationPageState extends State<_LocationPage> {
         );
       });
       await _client.start();
-      setState(() => _status = '定位中');
+      setState(() => _status = 'Locating');
     } on AmapException catch (error) {
       setState(() => _status = '${error.code}: ${error.message}');
     }
@@ -379,18 +387,23 @@ class _LocationPageState extends State<_LocationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('定位')),
+      appBar: AppBar(title: const Text('Location')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text('定位权限由宿主申请；本例不自动请求权限。'),
+            const Text(
+              'The host app requests location permission; this example does not.',
+            ),
             const SizedBox(height: 16),
-            FilledButton(onPressed: _start, child: const Text('开始定位')),
+            FilledButton(
+              onPressed: _start,
+              child: const Text('Start location'),
+            ),
             OutlinedButton(
               onPressed: () => _client.stop(),
-              child: const Text('停止'),
+              child: const Text('Stop'),
             ),
             const Divider(height: 32),
             SelectableText(_status),
@@ -410,7 +423,7 @@ class _RoutePage extends StatefulWidget {
 
 class _RoutePageState extends State<_RoutePage> {
   final _client = const AmapRouteClient();
-  String _result = '选择一种路线';
+  String _result = 'Choose a route';
 
   Future<void> _drive() async {
     try {
@@ -422,9 +435,9 @@ class _RoutePageState extends State<_RoutePage> {
       );
       setState(
         () => _result = result.paths.isEmpty
-            ? '没有路线'
-            : '${result.paths.first.distance.round()} 米 / '
-                  '${(result.paths.first.duration / 60).round()} 分钟',
+            ? 'No route'
+            : '${result.paths.first.distance.round()} m / '
+                  '${(result.paths.first.duration / 60).round()} min',
       );
     } on AmapException catch (error) {
       setState(() => _result = '${error.code}: ${error.message}');
@@ -434,13 +447,13 @@ class _RoutePageState extends State<_RoutePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('路线')),
+      appBar: AppBar(title: const Text('Route')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            FilledButton(onPressed: _drive, child: const Text('驾车路线')),
+            FilledButton(onPressed: _drive, child: const Text('Driving route')),
             const SizedBox(height: 24),
             SelectableText(_result),
           ],
@@ -461,14 +474,14 @@ class _OfflinePageState extends State<_OfflinePage> {
   final _client = const AmapOfflineMapClient();
   StreamSubscription<AmapOfflineEvent>? _subscription;
   List<AmapOfflineMapCity> _cities = const [];
-  String _status = '尚未加载';
+  String _status = 'Not loaded';
 
   Future<void> _load() async {
     try {
       final cities = await _client.getCities();
       setState(() {
         _cities = cities;
-        _status = '${cities.length} 个离线城市';
+        _status = '${cities.length} offline cities';
       });
     } on AmapException catch (error) {
       setState(() => _status = '${error.code}: ${error.message}');
@@ -481,7 +494,7 @@ class _OfflinePageState extends State<_OfflinePage> {
     });
     try {
       await _client.download(city.code);
-      setState(() => _status = '开始下载 ${city.name}');
+      setState(() => _status = 'Downloading ${city.name}');
     } on AmapException catch (error) {
       setState(() => _status = '${error.code}: ${error.message}');
     }
@@ -496,7 +509,7 @@ class _OfflinePageState extends State<_OfflinePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('离线地图')),
+      appBar: AppBar(title: const Text('Offline maps')),
       body: Column(
         children: [
           Padding(
@@ -504,7 +517,10 @@ class _OfflinePageState extends State<_OfflinePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                FilledButton(onPressed: _load, child: const Text('加载城市')),
+                FilledButton(
+                  onPressed: _load,
+                  child: const Text('Load cities'),
+                ),
                 const SizedBox(height: 8),
                 Text(_status),
               ],
@@ -541,7 +557,7 @@ class _NaviPage extends StatefulWidget {
 
 class _NaviPageState extends State<_NaviPage> {
   AmapNaviController? _controller;
-  String _status = '等待导航初始化';
+  String _status = 'Waiting for navigation initialization';
 
   Future<void> _calculate() async {
     try {
@@ -551,7 +567,7 @@ class _NaviPageState extends State<_NaviPage> {
           to: AmapLatLng(43.9000, 125.3500),
         ),
       );
-      setState(() => _status = '路线计算中');
+      setState(() => _status = 'Calculating route');
     } on AmapException catch (error) {
       setState(() => _status = '${error.code}: ${error.message}');
     }
@@ -560,7 +576,7 @@ class _NaviPageState extends State<_NaviPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('导航')),
+      appBar: AppBar(title: const Text('Navigation')),
       body: Column(
         children: [
           Expanded(
@@ -568,10 +584,10 @@ class _NaviPageState extends State<_NaviPage> {
               initialCamera: _initialCamera,
               onNaviCreated: (controller) {
                 _controller = controller;
-                setState(() => _status = '导航已初始化');
+                setState(() => _status = 'Navigation initialized');
               },
               onNaviInfoUpdate: (event) => setState(() => _status = event.type),
-              onArriveDestination: () => setState(() => _status = '已到达'),
+              onArriveDestination: () => setState(() => _status = 'Arrived'),
               onError: (code, message) =>
                   setState(() => _status = '$code: $message'),
             ),
@@ -583,11 +599,11 @@ class _NaviPageState extends State<_NaviPage> {
               children: [
                 FilledButton(
                   onPressed: _calculate,
-                  child: const Text('计算驾车路线'),
+                  child: const Text('Calculate driving route'),
                 ),
                 OutlinedButton(
                   onPressed: () => _controller?.startSimulateNavigation(),
-                  child: const Text('模拟导航'),
+                  child: const Text('Simulate navigation'),
                 ),
                 Text(_status),
               ],

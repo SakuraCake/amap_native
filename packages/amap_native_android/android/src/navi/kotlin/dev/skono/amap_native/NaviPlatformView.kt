@@ -1,4 +1,4 @@
-package io.github.sakuracake.amap_native
+package dev.skono.amap_native
 
 import android.content.Context
 import android.os.Bundle
@@ -94,7 +94,7 @@ class AmapNaviPlatformView(
                 emit(mapOf("type" to "ready"))
             }
             "onInitNaviFailure" -> emit(
-                mapOf("type" to "error", "code" to "init_failed", "message" to "导航初始化失败")
+                mapOf("type" to "error", "code" to "init_failed", "message" to "Navigation initialization failed")
             )
             "onCalculateRouteSuccess" -> emit(
                 mapOf("type" to "calculateSuccess", "routeIds" to (args?.firstOrNull() ?: emptyList<Any>()))

@@ -1,4 +1,4 @@
-package io.github.sakuracake.amap_native
+package dev.skono.amap_native
 
 import android.content.Context
 import android.view.Gravity
@@ -33,7 +33,7 @@ class AmapNaviPlatformView(
     viewId: Int
 ) : PlatformView, MethodChannel.MethodCallHandler, EventChannel.StreamHandler {
     private val view = TextView(context).apply {
-        text = "导航 SDK 未启用。请使用 -PamapNativeNavi=true 构建。"
+        text = "Navigation SDK is not enabled. Rebuild with -PamapNativeNavi=true."
         gravity = Gravity.CENTER
         setPadding(32, 32, 32, 32)
     }

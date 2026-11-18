@@ -7,10 +7,10 @@ Android demo for the native AMap federated plugin.
 Create `android/local.properties` with:
 
 ```properties
-amap.key=你的 Android Key
+amap.key=YOUR_ANDROID_KEY
 ```
 
-The Key must be bound to `io.github.sakuracake.amap_native_example` and the debug/release
+The Key must be bound to `dev.skono.amap_native_example` and the debug/release
 SHA1. The app shows a privacy consent screen before initializing the SDK.
 
 ## Build

@@ -170,7 +170,7 @@ class _AmapMapViewState extends State<AmapMapView> {
           child: Padding(
             padding: const EdgeInsets.all(24),
             child: Text(
-              '地图加载失败：$error',
+              'Map failed to load: $error',
               textAlign: TextAlign.center,
               style: const TextStyle(color: Color(0xff555555)),
             ),

@@ -1,4 +1,4 @@
-package io.github.sakuracake.amap_native
+package dev.skono.amap_native
 
 import android.content.Context
 import android.graphics.BitmapFactory

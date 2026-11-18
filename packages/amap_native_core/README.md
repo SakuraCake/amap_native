@@ -1,9 +1,12 @@
-# amap_native package
+# amap_native_core
 
-Part of the [`amap_native`](https://github.com/SakuraCake/amap_native) federated
-Flutter plugin set for the native Android AMap SDK.
+Shared models, coordinate conversion, privacy initialization and exceptions for
+the [`amap_native`](https://github.com/SakuraCake/amap_native) federated Flutter
+plugins.
 
-See the repository root README for setup, privacy initialization, Android Key
-configuration, and the Android-only/iOS-stub limitations.
+This package contains no platform channels or native SDK dependencies. Most
+applications use it through `amap_native`; depend on it directly only when
+building a custom platform implementation.
 
-Android apps must depend on both `amap_native` and `amap_native_android`.
+See the repository root README for Android setup, privacy initialization and
+the Android-only/iOS-stub limitations.
